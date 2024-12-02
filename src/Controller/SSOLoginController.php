@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SSOLoginController
 {
     /**
-     * @Route("/sso-login", name="spsostrov.sso.login")
+     * @Route("/sso-login", name="sso_login")
      */
     public function index(): Response
     {
