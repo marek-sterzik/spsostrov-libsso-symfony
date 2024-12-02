@@ -10,11 +10,8 @@ class SSOBundle extends AbstractBundle
 {
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        /*
-        // load an XML, PHP or YAML file
         $container->import('../config/services.xml');
-
-        // you can also add or replace parameters and services
+        /*
         $container->parameters()
             ->set('acme_hello.phrase', $config['phrase'])
         ;

@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    SPSOstrov\SSOBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/SSOBundle.php'
+
