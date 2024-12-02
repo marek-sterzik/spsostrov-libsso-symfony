@@ -1,0 +1,4 @@
+sso: 
+    resource: './src/Controller/'
+    type: annotation
+

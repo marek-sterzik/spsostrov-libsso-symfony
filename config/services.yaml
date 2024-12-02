@@ -6,4 +6,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/SSOBundle.php'
+    SPSOstrov\SSOBundle\Controller\:
+        resource: '@Bundle/Controller/'
+        tags: ['controller.service_arguments']
 
