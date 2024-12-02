@@ -16,6 +16,6 @@
     },
     "require": {
         "php": ">=7.1",
-        "spsostrov/libsso": "^1.4"
+        "spsostrov/libsso": ">=1.4"
     }
 }
