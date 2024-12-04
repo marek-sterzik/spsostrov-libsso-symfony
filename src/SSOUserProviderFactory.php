@@ -21,5 +21,12 @@ final class SSOUserProviderFactory implements UserProviderFactoryInterface
 
     public function addConfiguration(NodeDefinition $node): void
     {
+        $node
+            ->children()
+                ->booleanNode('config')
+                ->defaultTrue()
+            ->end()
+        ->end()
+        ;
     }
 }
