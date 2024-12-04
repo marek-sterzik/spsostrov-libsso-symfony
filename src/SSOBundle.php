@@ -12,12 +12,6 @@ class SSOBundle extends AbstractBundle
     {
         $container->import('../config/services.yaml');
         
-        $extension = $container->getExtension('security');
-
-        $extension->addUserProviderFactory(new SSOUserProviderFactory());
-
-        //$extension->addAuthenticatorFactory(new JWTAuthenticatorFactory());
-
         /*
         $container->parameters()
             ->set('acme_hello.phrase', $config['phrase'])
@@ -30,5 +24,16 @@ class SSOBundle extends AbstractBundle
             ;
         }
         */
+    }
+
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $extension = $container->getExtension('security');
+
+        $extension->addUserProviderFactory(new SSOUserProviderFactory());
+
+        //$extension->addAuthenticatorFactory(new JWTAuthenticatorFactory());
     }
 }
