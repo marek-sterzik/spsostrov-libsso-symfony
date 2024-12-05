@@ -6,13 +6,14 @@ class SSODefaultRoleDecider implements SSORoleDeciderInterface
 {
     public function decideRoles(SSOUser $user): array
     {
-        $roles = ['ROLE_USER'];
-        if ($user->isStudent()) {
-            $roles[] = 'ROLE_STUDENT';
-        }
+        $roles = [];
         if ($user->isTeacher()) {
             $roles[] = 'ROLE_TEACHER';
         }
+        if ($user->isStudent()) {
+            $roles[] = 'ROLE_STUDENT';
+        }
+        $roles[] = 'ROLE_USER';
         return $roles;
     }
 }
