@@ -23,6 +23,7 @@ use SPSOstrov\SSO\SSO;
 class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface, InteractiveAuthenticatorInterface
 {
     const DEFAULT_OPTIONS = [];
+    const LOGIN_SESSION_KEY = self::class;
 
     private UserProviderInterface $userProvider;
     private HttpUtils $httpUtils;
@@ -56,19 +57,29 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        $url = $this->getLoginUrl($request);
+        $url = $this->getLoginUrl($request) . $this->getRedirectQueryString($request);
         return new RedirectResponse($url);
+    }
+
+    protected function getRedirectQueryString(Request $request): string
+    {
+        $redirectParam = $this->options['redirect_param'];
+        if (empty($redirectParam)) {
+            return "";
+        }
+        return sprintf("?%s=%s", urlencode($redirectParam), urlencode($request->getRequestUri()));
     }
 
     public function supports(Request $request): ?bool
     {
-        return $this->getLoginUrl($request) === $this->getSelfUrl($request);
+        return $this->getLoginUrl($request) === $this->getSelfUrl($request) && $request->query->get('ticket') !== '';
     }
 
     public function authenticate(Request $request): Passport
     {
         $token = $request->query->get('ticket');
         if (!is_string($token)) {
+            $this->storeGetParametersToSession($request);
             throw new TokenNotFoundException('Missing token');
         }
         $user = $this->sso->getLoginCredentials($token, $this->getSelfUrl($request));
@@ -85,9 +96,27 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         return $passport;
     }
 
+    private function storeGetParametersToSession(Request $request): void
+    {
+        $query = $request->query->all();
+        unset($query['ticket']);
+        $request->getSession()->set(self::LOGIN_SESSION_KEY, $query);
+    }
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return null;
+        $session = $request->getSession();
+        $query = array_merge(
+            $request->query->all(),
+            $session->get(self::LOGIN_SESSION_KEY) ?? [],
+            ["ticket" => ""]
+        );
+        $session->remove(self::LOGIN_SESSION_KEY);
+        $queryString = http_build_query($query);
+        if ($queryString !== '') {
+            $queryString = '?' . $queryString;
+        }
+        return new RedirectResponse($this->getSelfUrl($request) . $queryString);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
