@@ -78,7 +78,7 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         $passport = new SelfValidatingPassport(
             new UserBadge(
                 $user->getLogin(),
-                fn ($userIdentifier) => $user
+                fn ($userIdentifier) => $this->userProvider->refreshUser($user)
             )
         );
 
