@@ -51,6 +51,7 @@ security:
     firewalls:
         main:
             lazy: true
+
             # You need to use the spsostrov_sso user provider:
             provider: spsostrov_sso
 
