@@ -33,7 +33,6 @@ class SSOBundle extends AbstractBundle
         $extension = $container->getExtension('security');
 
         $extension->addUserProviderFactory(new SSOUserProviderFactory());
-
-        //$extension->addAuthenticatorFactory(new JWTAuthenticatorFactory());
+        $extension->addAuthenticatorFactory(new SSOAuthenticatorFactory());
     }
 }
