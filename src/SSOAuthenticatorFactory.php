@@ -46,7 +46,7 @@ class SSOAuthenticatorFactory implements AuthenticatorFactoryInterface
 
         $userProviderId = empty($config['provider']) ? $userProviderId : 'security.user.provider.concrete.' . $config['provider'];
 
-        $container->register($authenticatorId, SSOUserProvider::class)
+        $container->register($authenticatorId, SSOAuthenticator::class)
             ->setArgument(0, new Reference($userProviderId))
             ->setArgument(1, new Reference(HttpUtils::class))
             ->setArgument(2, $config)

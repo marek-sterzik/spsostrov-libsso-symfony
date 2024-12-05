@@ -24,11 +24,6 @@ class SSOUserProvider implements UserProviderInterface
         return $user;
     }
 
-    public function supports(string $class): bool
-    {
-        return $this->supportsClass($class);
-    }
-
     public function supportsClass(string $class): bool
     {
         return SSOUser::class === $class || is_subclass_of($class, SSOUser::class);
