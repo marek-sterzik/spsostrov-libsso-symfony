@@ -72,7 +72,7 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
 
     public function supports(Request $request): ?bool
     {
-        return $this->getLoginUrl($request) === $this->getSelfUrl($request) && $request->query->get('ticket') !== '';
+        return $this->getLoginUrl($request) === $this->getSelfUrl($request) && $request->query->get('ticket') !== 'ok';
     }
 
     public function authenticate(Request $request): Passport
@@ -109,7 +109,7 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         $query = array_merge(
             $request->query->all(),
             $session->get(self::LOGIN_SESSION_KEY) ?? [],
-            ["ticket" => ""]
+            ["ticket" => "ok"]
         );
         $session->remove(self::LOGIN_SESSION_KEY);
         $queryString = http_build_query($query);
