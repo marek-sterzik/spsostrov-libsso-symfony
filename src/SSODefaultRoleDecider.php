@@ -2,7 +2,7 @@
 
 namespace SPSOstrov\SSOBundle;
 
-class SSODefaultRoleDecider implements SSORoleDecider
+class SSODefaultRoleDecider implements SSORoleDeciderInterface
 {
     public function decideRoles(SSOUser $user): array
     {

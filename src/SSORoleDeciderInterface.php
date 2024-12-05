@@ -2,7 +2,7 @@
 
 namespace SPSOstrov\SSOBundle;
 
-interface SSORoleDecider
+interface SSORoleDeciderInterface
 {
     public function decideRoles(SSOUser $user): array;
 }
