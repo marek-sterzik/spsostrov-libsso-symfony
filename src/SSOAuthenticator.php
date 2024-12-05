@@ -66,7 +66,7 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
 
     public function authenticate(Request $request): Passport
     {
-        $token = $request->query->get('token');
+        $token = $request->query->get('ticket');
         if (!is_string($token)) {
             throw new TokenNotFoundException('Missing token');
         }
