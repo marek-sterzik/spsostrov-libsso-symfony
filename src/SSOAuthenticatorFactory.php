@@ -34,7 +34,7 @@ class SSOAuthenticatorFactory implements AuthenticatorFactoryInterface
                 ->scalarNode('login_path')
                 ->end()
                 ->scalarNode('redirect_param')
-                    ->defaultValue("redirect")
+                    ->defaultValue("back")
                 ->end()
                 ->scalarNode('provider')
                     ->defaultNull()

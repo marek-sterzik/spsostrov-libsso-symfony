@@ -60,6 +60,14 @@ security:
               # Setup the route name used for log in:
               login_path: login
 
+              # When the controller requires a valid user, which is not available,
+              # the authenticator will redirect the user to the controller specified
+              # by login_path (see above). The authenticator may pass the original url
+              # as a get parameter to the login controller. This option tells
+              # the name of such an get parameter. You may also pass null to suppress
+              # this functionality and pass no get parameters to the login controller.
+              redirect_param: back
+
               # Override the default user provider.
               # (optional)
               provider: null
@@ -72,6 +80,33 @@ security:
             # configure standard logout:
             logout:
               path: logout
+```
+
+## The login controller
+
+You need to define a specific login controller, where the authenticator will authenticate the user. At this
+controller the "hard work" is done. The request is redirected to the SSO server and then back. While the SSO
+system does not allow to pass any GET arguments through the login process, therefore it is not possible to
+directly pass the get arguments originally passed to the login controller into the controller's processing method.
+The authenticator uses here an session-based layer trying to pass all arguments properly. But the layer is not
+able to guarantee to work in all circumstances.
+
+The code of the login controller's method is processed after a successfull login using the authenticator.
+A typical login controller may look like this:
+
+```php
+    #[Route('/login', name: 'login')]
+    public function login(Request $request): Response
+    {
+        # get the "back" get variable
+        $url = $request->query->get("back");
+        if (!is_string($url)) {
+            # if "back" get variable not available, redirect to the main controller
+            return $this->redirectToRoute('main');
+        }
+        # redirect to the url given by the "back" variable, if "back" variable available
+        return $this->redirect($url);
+    }
 ```
 
 ## Users
