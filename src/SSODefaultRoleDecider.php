@@ -13,5 +13,6 @@ class SSODefaultRoleDecider implements SSORoleDeciderInterface
         if ($user->isTeacher()) {
             $roles[] = 'ROLE_TEACHER';
         }
+        return $roles;
     }
 }
