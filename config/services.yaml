@@ -1,9 +1,8 @@
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-    SPSOstrov\SSOBundle\:
-        resource: '../src/'
-        exclude:
-            - '../src/SSOBundle.php'
+    spsostrov.sso:
+        class: SPSOstrov\SSO\SSO
+        arguments:
+          $ssoGatewayUrl: null
+          $ssoGatewayCheckUrl: null
+          $ssoUserClass: SPSOstrov\SSOBundle\SSOUser
 

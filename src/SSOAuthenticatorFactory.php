@@ -31,10 +31,13 @@ class SSOAuthenticatorFactory implements AuthenticatorFactoryInterface
     {
         $node
             ->children()
+                ->scalarNode('login_path')
+                ->end()
                 ->scalarNode('provider')
                     ->defaultNull()
                 ->end()
-                ->scalarNode('login_path')
+                ->scalarNode('sso')
+                    ->defaultNull()
                 ->end()
             ->end()
         ;
@@ -45,11 +48,15 @@ class SSOAuthenticatorFactory implements AuthenticatorFactoryInterface
         $authenticatorId = 'security.authenticator.spsostrov_sso.' . $firewallName;
 
         $userProviderId = empty($config['provider']) ? $userProviderId : 'security.user.provider.concrete.' . $config['provider'];
+        unset($config['provider']);
+
+        $ssoId = $config['sso'] ?? 'spsostrov.sso';
 
         $container->register($authenticatorId, SSOAuthenticator::class)
             ->setArgument(0, new Reference($userProviderId))
             ->setArgument(1, new Reference(HttpUtils::class))
-            ->setArgument(2, $config)
+            ->setArgument(2, new Reference($ssoId))
+            ->setArgument(3, $config)
         ;
 
         return $authenticatorId;

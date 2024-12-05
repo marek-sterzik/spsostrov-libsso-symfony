@@ -32,6 +32,7 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
     public function __construct(
         UserProviderInterface $userProvider,
         HttpUtils $httpUtils,
+        SSO $sso,
         array $options
     ) {
         if (!($userProvider instanceof SSOUserProvider)) {
@@ -39,8 +40,8 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         }
         $this->userProvider = $userProvider;
         $this->httpUtils = $httpUtils;
+        $this->sso = $sso;
         $this->options = array_merge(self::DEFAULT_OPTIONS, $options);
-        $this->sso = new SSO(null, null, SSOUser::class);
     }
 
     protected function getLoginUrl(Request $request): string
