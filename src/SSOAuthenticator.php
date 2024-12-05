@@ -61,7 +61,7 @@ class SSOAuthenticator extends AbstractAuthenticator implements AuthenticationEn
 
     public function supports(Request $request): ?bool
     {
-        return $this->getLoginUrl($request) === $request->getBaseUrl().$request->getPathInfo();
+        return $this->getLoginUrl($request) === $this->getSelfUrl($request);
     }
 
     public function authenticate(Request $request): Passport
