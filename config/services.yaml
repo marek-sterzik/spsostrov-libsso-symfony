@@ -5,4 +5,6 @@ services:
           $ssoGatewayUrl: null
           $ssoGatewayCheckUrl: null
           $ssoUserClass: SPSOstrov\SSOBundle\SSOUser
+    spsostrov.sso_role_decider:
+        class: SPSOstrov\SSOBundle\SSODefaultRoleDecider
 

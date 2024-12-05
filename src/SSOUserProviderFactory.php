@@ -6,12 +6,14 @@ use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\UserProvider\User
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class SSOUserProviderFactory implements UserProviderFactoryInterface
 {
     public function create(ContainerBuilder $container, string $id, array $config): void
     {
-        $container->register($id, SSOUserProvider::class);
+        $roleDeciderId = $config['role_decider'] ?? 'spsostrov.sso_role_decider';
+        $container->register($id, SSOUserProvider::class)->setArgument(0, new Reference($roleDeciderId));
     }
 
     public function getKey(): string
@@ -23,8 +25,8 @@ final class SSOUserProviderFactory implements UserProviderFactoryInterface
     {
         $node
             ->children()
-                ->booleanNode('config')
-                ->defaultTrue()
+                ->scalarNode('role_decider')
+                ->defaultNull()
             ->end()
         ->end()
         ;

@@ -10,6 +10,13 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class SSOUserProvider implements UserProviderInterface
 {
+    private SSORoleDeciderInterface $roleDecider;
+
+    public function __construct(SSORoleDeciderInterface $roleDecider)
+    {
+        $this->roleDecider = $roleDecider;
+    }
+
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         throw new Exception('User loading not implemented');
@@ -20,6 +27,9 @@ class SSOUserProvider implements UserProviderInterface
         if (!$user instanceof SSOUser) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
         }
+
+        $roles = $this->roleDecider->decideRoles($user);
+        $user->setRoles($roles);
 
         return $user;
     }
