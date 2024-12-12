@@ -16,6 +16,11 @@ class SSOUser extends SSOUserBase implements UserInterface
         return $this;
     }
 
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
+    }
+
     public function getRoles(): array
     {
         return $this->roles;
