@@ -13,7 +13,15 @@ final class SSOUserProviderFactory implements UserProviderFactoryInterface
     public function create(ContainerBuilder $container, string $id, array $config): void
     {
         $roleDeciderId = $config['role_decider'] ?? 'spsostrov.sso_role_decider';
-        $container->register($id, SSOUserProvider::class)->setArgument(0, new Reference($roleDeciderId));
+        $userDataProviderId = $config['user_data_provider'] ?? null;
+
+        $roleDecider = new Reference($roleDeciderId);
+        $userDataProvider = isset($userDataProviderId) ? (new Reference($userDataProviderId)) : null;
+        
+        $container->register($id, SSOUserProvider::class)
+            ->setArgument(0, $roleDecider)
+            ->setArgument(1, $userDataProvider)
+        ;
     }
 
     public function getKey(): string
@@ -26,9 +34,12 @@ final class SSOUserProviderFactory implements UserProviderFactoryInterface
         $node
             ->children()
                 ->scalarNode('role_decider')
-                ->defaultNull()
+                    ->defaultNull()
+                ->end()
+                ->scalarNode('user_data_provider')
+                    ->defaultNull()
+                ->end()
             ->end()
-        ->end()
         ;
     }
 }

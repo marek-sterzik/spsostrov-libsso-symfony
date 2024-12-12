@@ -48,6 +48,14 @@ security:
                 # providing the roles: ROLE_USER, ROLE_TEACHER, ROLE_STUDENT.
                 # (optional)
                 role_decider: null
+
+                # Set the service id of the user data provider. It may add any custom
+                # data to the user object available then as $user->getUserData().
+                # The user data provider needs to be an instance of the class
+                # SPSostrov\SSOBundle\SSOUserDataProviderInterface
+                # User data are set to null if no user data provider is set.
+                # (optional)
+                user_data_provider: null
     firewalls:
         main:
             lazy: true
@@ -124,3 +132,11 @@ to create a symfony service implementing the `SPSOstrov\SSOBundle\SSORoleDecider
 `decideRoles()`, which takes one argument the user being decided and is responsible for returning an array of
 all roles assigned to the given user. If no role decider is set up, a default role decider is used. It will decide
 the roles `ROLE_USER` (any user will have this role), `ROLE_TEACHER` (teachers) and `ROLE_STUDENT` (students).
+
+## User data providers
+
+An user data provider is an service allowing to attach custom data (refreshed at each request) to the user.
+You need toimplement the `SPSOstrov\SSOBundle\SSOUserDataProviderInterface` with its method `getUserData()` taking
+the instance of the `SSOUser` class as an argument and should return the data.
+
+The data are available then by calling the method `$user->getUserData()`.

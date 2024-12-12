@@ -8,6 +8,7 @@ use SPSOstrov\SSO\SSOUser as SSOUserBase;
 class SSOUser extends SSOUserBase implements UserInterface
 {
     private array $roles = [];
+    private $userData = null;
 
     public function setRoles(array $roles): self
     {
@@ -18,6 +19,16 @@ class SSOUser extends SSOUserBase implements UserInterface
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    public function setUserData($userData): self
+    {
+        $this->userData = $userData;
+    }
+
+    public function getUserData()
+    {
+        return $this->userData;
     }
 
     public function eraseCredentials(): void

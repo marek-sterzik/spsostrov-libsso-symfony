@@ -11,10 +11,12 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class SSOUserProvider implements UserProviderInterface
 {
     private SSORoleDeciderInterface $roleDecider;
+    private ?SSOUserDataProviderIntervace $userDataProvider;
 
-    public function __construct(SSORoleDeciderInterface $roleDecider)
+    public function __construct(SSORoleDeciderInterface $roleDecider, ?SSOUserDataProviderInterface $userDataProvider)
     {
         $this->roleDecider = $roleDecider;
+        $this->userDataProvider = $userDataProvider;
     }
 
     public function loadUserByIdentifier(string $identifier): UserInterface
@@ -26,6 +28,11 @@ class SSOUserProvider implements UserProviderInterface
     {
         if (!$user instanceof SSOUser) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
+        }
+
+        if ($this->userDataProvider !== null) {
+            $userData = $this->userDataProvider->getUserData($user);
+            $user->setUserData($userData);
         }
 
         $roles = $this->roleDecider->decideRoles($user);
