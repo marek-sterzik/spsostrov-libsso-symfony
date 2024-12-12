@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class SSOUserProvider implements UserProviderInterface
 {
     private SSORoleDeciderInterface $roleDecider;
-    private ?SSOUserDataProviderIntervace $userDataProvider;
+    private ?SSOUserDataProviderInterface $userDataProvider;
 
     public function __construct(SSORoleDeciderInterface $roleDecider, ?SSOUserDataProviderInterface $userDataProvider)
     {
