@@ -80,8 +80,26 @@ security:
               # (optional)
               provider: null
 
+              # Use the SSO variant (currently only 'production' variant is available,
+              # later also 'testing' variant will be supported)
+              # (optional)
+              sso_variant: production
+
+              # Set a custom SSO gateway URL (override the gateway url given by the sso_variant)
+              # (optional)
+              sso_gateway_url: null
+
+              # Set a custom SSO gateway check URL (override the gateway url given by the sso_variant)
+              # (optional)
+              sso_gateway_check_url: null
+
+              # Set a custom class for the users (must be a subclass of SPSOstrov\SSOBundle\SSOUser)
+              # (optional)
+              sso_user_class: null
+
               # Service id of the SPSOstrov\SSO\SSO service.
-              # Useful for overriding the default SSO instance parameters.
+              # If used, the arguments sso_variant, sso_gateway_url, sso_gateway_check_url, sso_user_class take
+              # no effect
               # (optional)
               sso: null
 

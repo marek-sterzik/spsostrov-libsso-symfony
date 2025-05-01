@@ -17,7 +17,12 @@ final class SSOUserProviderFactory implements UserProviderFactoryInterface
 
         $roleDecider = new Reference($roleDeciderId);
         $userDataProvider = isset($userDataProviderId) ? (new Reference($userDataProviderId)) : null;
-        
+
+        if ($roleDeciderId === 'spsostrov.sso_role_decider' &&
+            !$container->hasDefinition('spsostrov.sso_role_decider')
+        ) {
+            $container->register("spsostrov.sso_role_decider", SSODefaultRoleDecider::class);
+        }
         $container->register($id, SSOUserProvider::class)
             ->setArgument(0, $roleDecider)
             ->setArgument(1, $userDataProvider)
