@@ -80,8 +80,7 @@ security:
               # (optional)
               provider: null
 
-              # Use the SSO variant (currently only 'production' variant is available,
-              # later also 'testing' variant will be supported)
+              # Use the SSO variant (currently 'production' and 'testing' variants are available)
               # (optional)
               sso_variant: production
 
