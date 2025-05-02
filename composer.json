@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "spsostrov/libsso": ">=1.5",
+        "spsostrov/libsso": ">=1.7",
         "symfony/security-bundle": ">=6.2"
     }
 }
