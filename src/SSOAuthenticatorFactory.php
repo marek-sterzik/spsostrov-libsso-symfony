@@ -102,12 +102,9 @@ class SSOAuthenticatorFactory implements AuthenticatorFactoryInterface
 
     private function getSsoGatewayUrlsByVariant(string $variant): array
     {
-        if ($variant === 'testing' || $variant === 'production') {
-            return [
-                "sso_gateway_url" => $variant,
-                "sso_gateway_check_url" => $variant,
-            ];
-        }
-        throw new LogicException("Only production sso_variant is available by default");
+        return [
+            "sso_gateway_url" => $variant,
+            "sso_gateway_check_url" => $variant,
+        ];
     }
 }
